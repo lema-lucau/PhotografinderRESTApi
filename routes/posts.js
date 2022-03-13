@@ -6,12 +6,12 @@ router.get("/", (req, res) => {
 });
 
 // Add a new post
-router.get("/add", (req, res) => {
+router.post("/add", (req, res) => {
     res.send("Add a new post");
 });
 
 // Delete a post
-router.get("/delete/:postId", (req, res) => {
+router.delete("/delete/:postId", (req, res) => {
     res.send("Delete a post");
 });
 
@@ -31,7 +31,7 @@ router.get("/retrieveLikes/:postId", (req, res) => {
 });
 
 // Update a post's number of likes
-router.get("/updateLikes/:postId", (req, res) => {
+router.put("/updateLikes/:postId", (req, res) => {
     res.send("Update a post's number of likes");
 });
 

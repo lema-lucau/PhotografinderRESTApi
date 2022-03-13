@@ -6,17 +6,17 @@ router.get("/", (req, res) => {
 });
 
 // Add a user
-router.get("/add", (req, res) => {
+router.post("/add", (req, res) => {
     res.send("Add a user");
 });
 
 // Update the users details
-router.get("/update", (req, res) => {
+router.put("/update", (req, res) => {
     res.send("Update the users details");
 });
 
 // Set the imaage url for the users profile picture
-router.get("/profile-picture", (req, res) => {
+router.put("/profile-picture", (req, res) => {
     res.send("Set the image url for the users profile picture");
 });
 
@@ -46,12 +46,12 @@ router.get("/:userId", (req, res) => {
 });
 
 // Follow a photographer
-router.get("/follow/:photographerId", (req, res) => {
+router.put("/follow/:photographerId", (req, res) => {
     res.send("Follow a photographer");
 });
 
 // Unfollow a photographer
-router.get("/unfollow/:photographerId", (req, res) => {
+router.put("/unfollow/:photographerId", (req, res) => {
     res.send("Unfollow a photographer");
 });
 

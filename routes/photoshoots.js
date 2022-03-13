@@ -6,22 +6,22 @@ router.get("/", (req, res) => {
 });
 
 // Add a new photoshoot
-router.get("/add", (req, res) => {
+router.post("/add", (req, res) => {
     res.send("Add a new photoshoot");
 });
 
 // Amend a photoshoot's details
-router.get("/amend/:photoshootId", (req, res) => {
+router.put("/amend/:photoshootId", (req, res) => {
     res.send("Amend a photoshoot's details");
 });
 
 // Delete a photoshoot
-router.get("/delete/:photoshootId", (req, res) => {
+router.delete("/delete/:photoshootId", (req, res) => {
     res.send("Delete a photoshoot");
 });
 
 // Update the status of a photoshoot
-router.get("/update-status/:photoshootId", (req, res) => {
+router.put("/update-status/:photoshootId", (req, res) => {
     res.send("Update the status of a photoshoot");
 });
 

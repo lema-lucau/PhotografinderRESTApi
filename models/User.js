@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
     bio: { type: String },
     location: { type: String, default: "Not specified" },
     minRate: { type: String, default: "Not specified" },
-    profilePicUrl: { type: String },
+    profilePicUrl: { type: String, default: undefined },
     followers: { type: [FollowSchema], default: undefined },
     following: { type: [FollowSchema], default: undefined },
 });
