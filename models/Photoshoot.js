@@ -12,4 +12,4 @@ const PhotoshootSchema = mongoose.Schema({
     client_notes: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Photoshoots", PhotoshootSchema);
+module.exports = mongoose.model("Photoshoot", PhotoshootSchema);
