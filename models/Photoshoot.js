@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
 const PhotoshootSchema = mongoose.Schema({
-    status: { type: String, required: true },
-    photographer_id: { type: String, required: true },
-    client_id: { type: String, required: true },
+    id: { type: String, required: true },
+    status: { type: String, default: "Pending"},
+    photographerId: { type: String, required: true },
+    clientId: { type: String, required: true },
     date: { type: Date, required: true },
-    start_time: { type: String, required: true },
-    end_time: { type: String, required: true },
+    startTime: { type: String, required: true },
+    endTime: { type: String, required: true },
     location: { type: String, required: true},
-    photographer_notes: { type: String, required: true },
-    client_notes: { type: String, required: true },
+    photographerNotes: { type: String, default: "" },
+    clientNotes: { type: String, default: "" },
 });
 
 module.exports = mongoose.model("Photoshoot", PhotoshootSchema);
