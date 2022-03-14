@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+const FollowSchema = mongoose.Schema({
+    uid: { type: String }
+})
+
 const UserSchema = mongoose.Schema({
     uid: { type: String, required: true },
     type: { type: String, required: true },
@@ -7,16 +11,12 @@ const UserSchema = mongoose.Schema({
     lastName: { type: String, required: true },
     email: { type: String, required: true },
     username: { type: String, required: true },
-    bio: { type: String },
+    bio: { type: String, default: "Not specified" },
     location: { type: String, default: "Not specified" },
     minRate: { type: String, default: "Not specified" },
-    profilePicUrl: { type: String },
+    profilePicUrl: { type: String, default: "" },
     followers: { type: [FollowSchema], default: undefined },
-    following: { type: [FollowSchema], default: undefined },
+    following: { type: [FollowSchema], default: [] },
 });
 
-const FollowSchema = mongoose.Schema({
-    uid: { type: String }
-})
-
-module.exports = mongoose.model("Users", UserSchema);
+module.exports = mongoose.model("User", UserSchema);
