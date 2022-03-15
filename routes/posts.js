@@ -69,12 +69,25 @@ router.get("/retrieveLikes/:postId", async (req, res) => {
     }
 });
 
-// Update a post's number of likes
-router.patch("/updateLikes/:postId", async (req, res) => {
+// Add a like to a post
+router.patch("/addLike/:postId", async (req, res) => {
     try {
         const updatedPost = await Post.updateOne(
             { id: req.params.postId },
-            { $set: { likes: req.body.likes } }
+            { $push: { likes: req.body.uid } }
+        );
+        res.json(updatedPost);
+    } catch (error) {
+        res.json({ message: error });
+    }
+});
+
+// Remove like from post
+router.patch("/removeLike/:postId", async (req, res) => {
+    try {
+        const updatedPost = await Post.updateOne(
+            { id: req.params.postId },
+            { $pull: { likes: req.body.uid } }
         );
         res.json(updatedPost);
     } catch (error) {

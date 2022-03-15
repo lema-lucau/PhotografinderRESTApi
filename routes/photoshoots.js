@@ -87,7 +87,7 @@ router.patch("/update-status/:photoshootId", async (req, res) => {
 // Fetch all the user's photoshoots
 router.get("/retrieve", async (req, res) => {
     try {
-        const photoshoots = await Photoshoot.find({ $or: [{ photographerId: req.body.uid }, { clientId: req.body.uid }] });
+        const photoshoots = await Photoshoot.find({ $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] });
         res.json(photoshoots);
     } catch (error) {
         res.json({ message: error });
@@ -99,9 +99,9 @@ router.get("/retrieve/by-date-start-time", async (req, res) => {
     try {
         const photoshoot = await Photoshoot.find({ $and: 
             [
-                { date: req.body.date }, 
-                { startTime: req.body.startTime },
-                { $or: [{ photographerId: req.body.uid }, { clientId: req.body.uid }] }
+                { date: req.query.date }, 
+                { startTime: req.query.startTime },
+                { $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] }
             ] 
         });
         res.json(photoshoot);
@@ -115,8 +115,8 @@ router.get("/retrieve/by-status", async (req, res) => {
     try {
         const photoshoot = await Photoshoot.find({ $and: 
             [
-                { status: req.body.status },
-                { $or: [{ photographerId: req.body.uid }, { clientId: req.body.uid }] }
+                { status: req.query.status },
+                { $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] }
             ] 
         });
         res.json(photoshoot);
