@@ -106,7 +106,7 @@ router.get("/type/:userId", async (req, res) => {
 // Return the users following list
 router.get("/following", async (req, res) => {
     try {
-        const user = await User.findOne({ uid: req.body.uid });
+        const user = await User.findOne({ uid: req.query.uid });
         res.json(user.following);
     } catch (error) {
         res.json({ message: error });
@@ -116,7 +116,7 @@ router.get("/following", async (req, res) => {
 // Return the users followers list
 router.get("/followers", async (req, res) => {
     try {
-        const user = await User.findOne({ uid: req.body.uid });
+        const user = await User.findOne({ uid: req.query.uid });
         res.json(user.followers);
     } catch (error) {
         res.json({ message: error });
