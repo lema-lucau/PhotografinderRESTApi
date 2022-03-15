@@ -26,4 +26,4 @@ mongoose.connect(
 .catch(err => console.log(err));
 
 // Start listening to server
-app.listen(9999);
+app.listen(80);
