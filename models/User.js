@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     location: { type: String, default: "Not specified" },
     minRate: { type: String, default: "Not specified" },
     profilePicUrl: { type: String, default: "" },
-    followers: { type: [FollowSchema], default: undefined },
+    followers: { type: [FollowSchema], default: [] },
     following: { type: [FollowSchema], default: [] },
 });
 
