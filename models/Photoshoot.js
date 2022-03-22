@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const PhotoshootSchema = mongoose.Schema({
     id: { type: String, required: true },
     status: { type: String, default: "Pending"},
+    lastEditBy: { type: String, default: "Client" },
     photographerId: { type: String, required: true },
     clientId: { type: String, required: true },
     date: { type: Date, required: true },

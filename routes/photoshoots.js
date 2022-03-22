@@ -17,6 +17,7 @@ router.post("/add", async (req, res) => {
     const photoshoot = new Photoshoot({
         id: req.body.id,
         status: req.body.status,
+        lastEditBy: req.body.lastEditBy,
         photographerId: req.body.photographerId,
         clientId: req.body.clientId,
         date: req.body.date,
@@ -43,6 +44,7 @@ router.put("/amend/:photoshootId", async (req, res) => {
             { $set: { 
                 id: req.params.photoshootId,
                 status: req.body.status,
+                lastEditBy: req.body.lastEditBy,
                 photographerId: req.body.photographerId,
                 clientId: req.body.clientId,
                 date: req.body.date,
@@ -84,10 +86,27 @@ router.patch("/update-status/:photoshootId", async (req, res) => {
     }
 });
 
+// Update the last person who edited the photoshoot
+router.patch("/update-editor/:photoshootId", async (req, res) => {
+    try {
+        const updatedPhotoshoot = await Photoshoot.updateOne(
+            { id: req.params.photoshootId },
+            { $set: { 
+                lastEditBy: req.body.lastEditBy,
+            } }
+        );
+        res.json(updatedPhotoshoot);
+    } catch (error) {
+        res.json({ message: error });
+    }
+});
+
 // Fetch all the user's photoshoots
 router.get("/retrieve", async (req, res) => {
     try {
-        const photoshoots = await Photoshoot.find({ $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] });
+        const photoshoots = await Photoshoot
+            .find({ $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] })
+            .sort({ date: "asc"});
         res.json(photoshoots);
     } catch (error) {
         res.json({ message: error });
@@ -103,14 +122,15 @@ router.get("/retrieve/by-date-start-time", async (req, res) => {
                 { startTime: req.query.startTime },
                 { $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] }
             ] 
-        });
+        })
+        .sort({ date: "asc"});
         res.json(photoshoot);
     } catch (error) {
         res.json({ message: error });
     }
 });
 
-// Retrieve a photoshoot by it's status
+// Retrieve photoshoots by it's status
 router.get("/retrieve/by-status", async (req, res) => {
     try {
         const photoshoot = await Photoshoot.find({ $and: 
@@ -118,7 +138,8 @@ router.get("/retrieve/by-status", async (req, res) => {
                 { status: req.query.status },
                 { $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] }
             ] 
-        });
+        })
+        .sort({ date: "asc"});
         res.json(photoshoot);
     } catch (error) {
         res.json({ message: error });
