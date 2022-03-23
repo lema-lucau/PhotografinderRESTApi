@@ -113,13 +113,13 @@ router.get("/retrieve", async (req, res) => {
     }
 });
 
-// Retrieve a photoshoot by it's date and start time
-router.get("/retrieve/by-date-start-time", async (req, res) => {
+// Retrieve a photoshoot by it's date and status
+router.get("/retrieve/by-date-status", async (req, res) => {
     try {
         const photoshoot = await Photoshoot.find({ $and: 
             [
                 { date: req.query.date }, 
-                { startTime: req.query.startTime },
+                { status: req.query.status},
                 { $or: [{ photographerId: req.query.uid }, { clientId: req.query.uid }] }
             ] 
         })
