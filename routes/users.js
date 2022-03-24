@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User");
 
+const multer = require("multer");
+const upload = multer({ dest: "images/" });
+
+const { uploadFile } = require('../s3');
+const fs = require("fs");
+const util = require("util");
+const unlinkFile = util.promisify(fs.unlink);
+
 // Return all users
 router.get("/", async (req, res) => {
     try {
@@ -68,13 +76,21 @@ router.patch("/update", async (req, res) => {
     }
 });
 
-// Set the image url for the users profile picture
-router.patch("/profile-picture", async (req, res) => {
+// Set the image url for the users profile picture and upload image to s3
+router.post("/profile-picture", upload.single("image"), async (req, res) => {
+    const image = req.file;
+    const ownerId = req.body.ownerId;
+
     try {
+        // Upload file to s3
+        const uploadedFile = await uploadFile(image, ownerId);
+        await unlinkFile(image.path);
+
+        // Update url 
         const updatedUser = await User.updateOne(
-            { uid: req.body.uid },
+            { uid: ownerId },
             { $set: { 
-                profilePicUrl: req.body.profilePicUrl
+                profilePicUrl: uploadedFile.Location
             } }
         );
         res.json(updatedUser);
