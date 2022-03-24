@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
+
 const Post = require("../models/Post");
+
+const multer = require("multer");
+const upload = multer({ dest: "images/" });
+
+const { uploadFile } = require('../s3');
+const fs = require("fs");
+const util = require("util");
+const unlinkFile = util.promisify(fs.unlink);
 
 // Return all posts
 router.get("/", async (req, res) => {
@@ -13,19 +22,27 @@ router.get("/", async (req, res) => {
 });
 
 // Add a new post
-router.post("/add", async (req, res) => {
-    const post = new Post({
-        id: req.body.id,
-        ownerId: req.body.ownerId,
-        imageUrl: req.body.imageUrl,
-        likes: req.body.likes
-    });
+router.post("/add", upload.single("image"), async (req, res) => {
+    const image = req.file;
+    const ownerId = req.body.ownerId;
 
     try {
+        // Upload file to s3
+        const uploadedFile = await uploadFile(image, ownerId);
+        await unlinkFile(image.path);
+        
+        // Upload post data to db
+        const post = new Post({
+            id: req.body.id,
+            ownerId: ownerId,
+            imageUrl: uploadedFile.Location,
+            likes: req.body.likes
+        });
+
         const savedPost = await post.save();
         res.json(savedPost);
-    } catch (error) {
-        res.json({ message: error });
+    } catch (error) {  
+        res.json(error);
     }
 });
 
