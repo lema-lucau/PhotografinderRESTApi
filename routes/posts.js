@@ -25,6 +25,7 @@ router.get("/", async (req, res) => {
 router.post("/add", upload.single("image"), async (req, res) => {
     const image = req.file;
     const ownerId = req.body.ownerId;
+    const imageName = req.file.originalname;
 
     try {
         // Upload file to s3
@@ -35,7 +36,9 @@ router.post("/add", upload.single("image"), async (req, res) => {
         const post = new Post({
             id: req.body.id,
             ownerId: ownerId,
+            ownerUsername: req.body.ownerUsername,
             imageUrl: uploadedFile.Location,
+            imageName: imageName,
             likes: req.body.likes
         });
 
@@ -69,7 +72,7 @@ router.get("/retrieve/:postId", async (req, res) => {
 // Fetch all the posts from a photographer
 router.get("/retrieve/photographer/:photographerId", async (req, res) => {
     try {
-        const posts = await Post.find({ ownerId: req.params.photographerId });
+        const posts = await Post.find({ ownerId: req.params.photographerId }).sort({ timestamp: "desc" });
         res.json(posts);
     } catch (error) {
         res.json({ message: error });

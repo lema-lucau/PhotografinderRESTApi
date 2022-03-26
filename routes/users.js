@@ -67,7 +67,8 @@ router.patch("/update", async (req, res) => {
                 username: req.body.username,
                 bio: req.body.bio,
                 location: req.body.location,
-                minRate: req.body.minRate
+                minRate: req.body.minRate,
+                profilePicUrl: req.body.profilePicUrl
             } }
         );
         res.json(updatedUser);
