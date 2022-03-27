@@ -79,6 +79,18 @@ router.get("/retrieve/photographer/:photographerId", async (req, res) => {
     }
 });
 
+// Fetch all the posts from a photographer except the results are limited
+router.get("/retrieve/limit/photographer/:photographerId", async (req, res) => {
+    try {
+        const posts = await Post.find({ ownerId: req.params.photographerId })
+            .sort({ timestamp: "desc" })
+            .limit(req.query.limit);
+        res.json(posts);
+    } catch (error) {
+        res.json({ message: error });
+    }
+});
+
 // Return the number of likes that a post has
 router.get("/retrieveLikes/:postId", async (req, res) => {
     try {
