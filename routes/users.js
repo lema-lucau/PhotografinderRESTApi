@@ -110,16 +110,6 @@ router.get("/username/:username", async (req, res) => {
     }
 });
 
-// Return the user type
-router.get("/type/:userId", async (req, res) => {
-    try {
-        const user = await User.findOne({ uid: req.params.userId });
-        res.json(user.type);
-    } catch (error) {
-        res.json({ message: error });
-    }
-});
-
 // Return the users following list
 router.get("/following", async (req, res) => {
     try {
@@ -135,6 +125,23 @@ router.get("/followers", async (req, res) => {
     try {
         const user = await User.findOne({ uid: req.query.uid });
         res.json(user.followers);
+    } catch (error) {
+        res.json({ message: error });
+    }
+});
+
+// Return photographers that a user doesn't follow
+router.get("/not-following", async (req, res) => {
+    const userId = req.query.uid;
+    try {
+        const users = await User.find(
+            { $and: [
+                { "followers.uid": { $nin: userId} },
+                { uid: { $ne: userId } },
+                { type: "Photographer" }
+            ]}
+        );
+        res.json(users);
     } catch (error) {
         res.json({ message: error });
     }
