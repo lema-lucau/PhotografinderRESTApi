@@ -36,7 +36,6 @@ router.post("/add", upload.single("image"), async (req, res) => {
         const post = new Post({
             id: req.body.id,
             ownerId: ownerId,
-            ownerUsername: req.body.ownerUsername,
             imageUrl: uploadedFile.Location,
             imageName: imageName,
             likes: req.body.likes
