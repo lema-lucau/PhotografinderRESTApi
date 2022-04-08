@@ -13,8 +13,9 @@ const unlinkFile = util.promisify(fs.unlink);
 // Return all users
 router.get("/", async (req, res) => {
     try {
-        const users = await User.find();
-        res.json(users);
+        // const users = await User.find();
+        // res.json(users);
+        res.send("This endpoint is temporarily disabled");
     } catch (error) {
         res.json({ message: error });
     }
@@ -48,8 +49,9 @@ router.post("/add", async (req, res) => {
 // Delete a user
 router.delete("/delete/:userId", async (req, res) => {
     try {
-        const deletedUser = await User.deleteOne({uid: req.params.userId});
-        res.json(deletedUser);
+        // const deletedUser = await User.deleteOne({uid: req.params.userId});
+        // res.json(deletedUser);
+        res.send("This endpoint is temporarily disabled");
     } catch (error) {
         res.json({ message: error });
     }
