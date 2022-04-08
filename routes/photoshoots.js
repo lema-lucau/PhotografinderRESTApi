@@ -5,8 +5,9 @@ const Photoshoot = require("../models/Photoshoot");
 // Get all photoshoots
 router.get("/", async (req, res) => {
     try {
-        const photoshoots = await Photoshoot.find();
-        res.json(photoshoots);
+        // const photoshoots = await Photoshoot.find();
+        // res.json(photoshoots);
+        res.send("This endpoint is temporarily disabled");
     } catch (error) {
         res.json({ message: error });
     }

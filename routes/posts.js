@@ -14,8 +14,9 @@ const unlinkFile = util.promisify(fs.unlink);
 // Return all posts
 router.get("/", async (req, res) => {
     try {
-        const posts = await Post.find();
-        res.json(posts);
+        // const posts = await Post.find();
+        // res.json(posts);
+        res.send("This endpoint is temporarily disabled");
     } catch (error) {
         res.json({ message: error });
     }
@@ -51,8 +52,9 @@ router.post("/add", upload.single("image"), async (req, res) => {
 // Delete a post
 router.delete("/delete/:postId", async (req, res) => {
     try {
-        const deletedPost = await Post.deleteOne({id: req.params.postId});
-        res.json(deletedPost);
+        // const deletedPost = await Post.deleteOne({id: req.params.postId});
+        // res.json(deletedPost);
+        res.send("This endpoint is temporarily disabled");
     } catch (error) {
         res.json({ message: error });
     }
